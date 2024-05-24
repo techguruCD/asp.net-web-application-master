@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Modelo.Cadastros.Produto>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Listagem de PRODUTOS - Home";
+}
+@if (@TempData["Message"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["Message"]
+    </div>
+}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Relação de PRODUTOS em destaque registrados
+    </div>
+    <div class="panel-body">
+            @foreach (var item in Model)
+            {
+                if (item.Destaque == true)
+                {
+                    <div style="border: 1px solid rgb(51, 122, 183); margin-bottom: 1em">
+                    <div class="form-group">
+                        @if (item.NomeArquivo == null)
+                        {
+                            <div class="form-control-static">
+                                Nenhuma imagem adicionada
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="panel-body">
+                                <img class="img-thumbnail"
+                                        src="@Url.Action("GetLogotipo2", "Produtos", new { id = item.ProdutoId })"
+                                        style="display: block; margin-left: auto; margin-right: auto;" />
+                            </div>
+                        }
+                    </div>
+                    <div style="font-size: 4em; text-align: center; margin-bottom: 0.5em">
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </div>
+                    </div>
+                }
+            }
+    </div>
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Relação de PRODUTOS registrados nos últimos trinta dias
+    </div>
+    <div class="panel-body">
+        @foreach (var item in Model)
+        {
+            if (item.DataCadastro.AddDays(30) >= DateTime.Now)
+            {
+                <div style="border: 1px solid rgb(51, 122, 183); margin-bottom: 1em">
+                    <div class="form-group">
+                        @if (item.NomeArquivo == null)
+                        {
+                            <div class="form-control-static">
+                                Nenhuma imagem adicionada
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="panel-body">
+                                <img class="img-thumbnail"
+                                     src="@Url.Action("GetLogotipo2", "Produtos", new { id = item.ProdutoId })"
+                                     style="display:block; margin-left:auto; margin-right:auto;" />
+                            </div>
+                        }
+                    </div>
+                    <div style="font-size: 4em; text-align: center; margin-bottom: 0.5em">
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </div>
+                </div>
+                    }
+
+                    }
+                </div>
+            </div>
+@section styles{
+    <link href="@Url.Content("~/content/DataTables-1.10.2/css/dataTables.bootstrap.css")" rel="stylesheet" />
+}
+@section ScriptPage{
+    <script src="@Url.Content("~/scripts/DataTables-1.10.2/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/scripts/DataTables-1.10.2/dataTables.bootstrap.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+        $('li').removeClass("active");
+        $('#liHome').addClass("active");
+        $('.table').dataTable({ "order": [[1, "asc"]] });
+        });
+    </script>
+}

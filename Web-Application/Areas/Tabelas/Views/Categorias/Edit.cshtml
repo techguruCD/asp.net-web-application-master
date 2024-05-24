@@ -1,0 +1,36 @@
+﻿@model Modelo.Tabelas.Categoria
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Alterando os dados de uma CATEGORIA";}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Alteração dos dados de um CATEGORIA
+        </div>
+        <div class="panel-body">
+            @Html.HiddenFor(model => model.CategoriaId)
+            @Html.Partial("~/Areas/Tabelas/Views/Categorias/_PartialEditContentPanel.cshtml", Model)
+            <div class="panel-footer panel-info">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Gravar alterações" class="btn btn-info" />
+                    @Html.ActionLink("Retornar para a listagem de CATEGORIAS", "Index", null,
+                    new { @class = "btn btn-warning" })
+                </div>
+                <br />
+                <br />
+            </div>
+        </div>
+    </div>
+}
+@section ScriptPage {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('li').removeClass("active");
+            $('#liCategorias').addClass("active");
+        });
+    </script>
+}
